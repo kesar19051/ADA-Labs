@@ -2,8 +2,6 @@ import java.io.BufferedReader;
 import java.io.IOException;
 import java.io.InputStream;
 import java.io.InputStreamReader;
-import java.util.ArrayList;
-import java.util.Arrays;
 import java.util.StringTokenizer;
 
 class Reader {
@@ -30,19 +28,13 @@ class Reader {
     static int nextInt() throws IOException {
         return Integer.parseInt( next() );
     }
-
-    static double nextDouble() throws IOException {
-        return Double.parseDouble( next() );
-    }
 }
 
-public class Prob-A2 {
-    private static long mergeAndCount(int[] arr, int[] temp, int[] arr2,
-                                     int l, int m, int r) {
+public class Assign3 {
+    private static long mergeAndCount(int[] arr, int[] temp, int[] arr2, int l, int m, int r) {
 
         int i, j, k;
         long count = 0;
-        // Left subarray
         i = l;
         j = m;
         k = l;
@@ -58,25 +50,21 @@ public class Prob-A2 {
         while (i <= m - 1)
             temp[k++] = arr[i++];
 
-    /* Copy the remaining elements of right subarray
-(if there are any) to temp*/
         while (j <= r)
             temp[k++] = arr[j++];
 
-        /*Copy back the merged elements to original array*/
         for (i = l; i <= r; i++)
             arr[i] = temp[i];
 
         return count;
     }
 
-    // Merge sort function
     private static long mergeSortAndCount(int[] arr, int[] temp,int[] arr2,
                                          int l, int r) {
         long count = 0;
-        int m = 0;
+        int m;
         if (l < r) {
-            m = (l + r) / 2;
+            m = (r-l)/2+l;
             count += mergeSortAndCount(arr, temp,arr2, l, m);
             count += mergeSortAndCount(arr, temp,arr2, m + 1, r);
             count += mergeAndCount(arr, temp, arr2, l, m + 1, r);
@@ -100,13 +88,13 @@ public class Prob-A2 {
             for (int j = 0; j < n; j++) {
                 arr[j] = Reader.nextInt() - 1;
             }
-
             int[] temp = new int[arr.length];
-            System.out.println(mergeSortAndCount(arr, temp, arr2,0,
-                    arr.length - 1));
+            System.out.println(mergeSortAndCount(arr, temp, arr2,0, arr.length - 1));
         }
     }
 }
+
+//Referred GFG for number of inversions algorithm
 
 
 
