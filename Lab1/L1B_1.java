@@ -1,185 +1,134 @@
-//package com.company;
-
-import javax.swing.text.AttributeSet;
 import java.io.BufferedReader;
 import java.io.InputStream;
-import java.lang.reflect.Array;
 import java.util.*;
-import java.io.BufferedReader;
 import java.io.IOException;
-import java.io.InputStream;
 import java.io.InputStreamReader;
-import java.util.Map.Entry;
 import java.util.StringTokenizer;
-import java.util.concurrent.atomic.AtomicLongFieldUpdater;
-
 
 
 public class Main {
     static Integer[][] tokens;
     static int n;
-
+    static int[] temp;
     public static void main(String[] args) throws IOException {
         FastReader reader = new FastReader();
-        n = reader.nextInt();
-
-        //   int n = reader.nextInt();
-        double[][] array = new double[n][2];
-        for (int i = 0; i < n; i++) {
-            array[i][0] = reader.nextDouble();
-            array[i][1] = reader.nextDouble();
+        int n = reader.nextInt();
+        Integer[][] list_of_points = new Integer[n][2];
+        for (int o = 0; o < n; o++) {
+            list_of_points[o][0] = reader.nextInt();
+            list_of_points[o][1] = reader.nextInt();
         }
-        Arrays.sort(array, new Comparator<double[]>() {
+        Arrays.sort(list_of_points, new Comparator<Integer[]>() {
             @Override
-            public int compare(double[] o1, double[] o2) {
-                double kk =  ( o1[1] - o2[1]);
-                if (kk != 0) return (int) kk;
-                return (int)(o1[0] - o2[0]);
+            public int compare(Integer[] o1, Integer[] o2) {
+                return o1[0] - o2[0];
             }
         });
-//                for (int i = 0; i < n; i++){
-//            System.out.println(Arrays.toString(array[i]));
-//        }
-        double ans = Merging(array, 0, n);
-//        for (int i = 0; i < n; i++){
-//            System.out.println(Arrays.toString(gridY[i]));
-//        }
-        System.out.println(ans);
-
+        System.out.println(sort2(list_of_points, 0, n - 1 , Double.MAX_VALUE));
     }
-
-    public static double Merging(double[][] gridY, int s, int e) {
-//        if (e > n) return Double.MAX_VALUE;
-        int mid = (s + e) / 2;
-
-      //  System.out.println(s + " " + e);
-        if (e - s == 2) {
-       //     System.out.println("AJJJJJJJJJJJ");
-            return findPeri(gridY);
+    static int merge(int arr[], int[] arr3, int[] temp, int l, int m, int r)
+    {
+       // System.out.println(l + " " + m + " " + r);
+        int ans = 0;
+        if (r - l == 1){
+            if (arr3[arr[l]] > arr3[arr[r]]){
+                int u = arr[l];
+                arr[l] = arr[r];
+                arr[r] = u;
+                ans += 1;
+            }
+        //    System.out.println(Arrays.toString(arr) + " " + Arrays.toString(arr));
+            return ans;
         }
-        else if (e - s < 2 ) {
-            //System.out.println("AYUSHIII ");
-            return Double.MAX_VALUE;}
-        double a1 = Merging(gridY, s, mid);
-        double a2 = Merging(gridY, mid + 1, e);
-//        int[][] refX = new int[gridX.length][2];
-//        int i1 = 0; int j1 = 0; int k1 = 0;
-//        while (i1 < mid - s && j1 < e - mid - 1){
-//            if (gridX[i1][0] < gridX[j1][0]){
-//                refX[k1][0] = gridX[i1][0];
-//                refX[k1][1] = gridX[i1][1];
-//                k1 += 1; i1 += 1;
-//            }
-//            else if (gridX[i1][0] > gridX[j1][0]){
-//                refX[k1][0] = gridX[j1][0];
-//                refX[k1][1] = gridX[j1][1];
-//                k1 += 1; j1 += 1;
-//            }
-//        }
-//        while (i1 < mid - s){
-//            gridX[k1][0] = gridX[i1][0];
-//            gridX[k1][1] = gridX[i1][1];
-//            i1 += 1; k1 += 1;
-//        }
-//        while (j1 < e - mid - 1){
-//            gridX[k1][0] = gridX[j1][0];
-//            gridX[k1][1] = gridX[j1][1];
-//            j1 += 1; k1 += 1;
-//        }
+        int i = l, j = m;
+        int k = l;
 
-        int i2 = 0;
-        int j2 = 0;
-        int k2 = 0;
-//        double[][] refY = new double[n][2];
-////        while (i2 < mid - s+ 1 && j2 < e - mid ) {
-////       //     System.out.println("OOOO" + " " + i2 + " " + j2);
-////            if (gridY[i2][0] < gridY[j2][0]) {
-////                refY[k2][0] = gridY[i2][0];
-////                refY[k2][1] = gridY[i2][1];
-////                k2 += 1;
-////                i2 += 1;
-////            } else if (gridY[i2][0] > gridY[j2][0]) {
-////                refY[k2][0] = gridY[j2][0];
-////                refY[k2][1] = gridY[j2][1];
-////                k2 += 1;
-////                j2 += 1;
-////            }
-////            else{
-////                refY[k2][0] = gridY[j2][0];
-////                refY[k2][1] = gridY[j2][1];
-////                k2 += 1;
-////                j2 += 1;
-////            }
-////        }
-////        while (i2 < mid - s) {
-////            refY[k2][0] = gridY[i2][0];
-////            refY[k2][1] = gridY[i2][1];
-////            i2 += 1;
-////            k2 += 1;
-////        }
-////        while (j2 < e - mid - 1) {
-////            refY[k2][0] = gridY[j2][0];
-////            refY[k2][1] = gridY[j2][1];
-////            j2 += 1;
-////            k2 += 1;
-////        }
-        double[] rr = gridY[mid]; double kk = Math.min(a1, a2);
-        int u1 = s; int u2 = e;
-        u1 = Good(gridY, rr, Math.ceil(kk/2), s, e);
-//        while (u2 < e && u2 > s  && findDist(gridY[u2], rr) > kk){u2 -= 1;}
-        if (u1 == -1) return kk;
-        if ((u1 < mid &&80 + u1 < mid) || (u1 > mid  && 80 + u1 > mid)){return kk;}
-            for (int i = u1; i < u2; i++) {
-            for (int j = i + 1; j < Math.min(80 + u1, e); j++) {
-                for (int k = j + 1; k < Math.min(80 + u1,e); k++) {
-                    double[][] bb = new double[3][2];
-                    bb[0] = gridY[i];
-                    bb[1] = gridY[j];
-                    bb[2] = gridY[k];
-                    kk = Math.min(kk, findPeri(bb));
-                }
+        while (i < m &&  j <= r){
+            if (arr3[arr[i]] > arr3[arr[j]]){
+                temp[k] = arr[j];
+                j += 1;k += 1;
+                ans += (m - i);
+            }
+            else if (arr3[arr[i]] <= arr3[arr[j]]){
+                temp[k] =arr[i];
+                i += 1; k += 1;
+
             }
         }
-     //   System.out.println("KK: " + kk);
-        return kk;
-    }
-    public static int Good(double[][] grid, double[] ref, double kk , int s, int e){
-        if (e < s) return -1;
-        int mid = (s + e)/2;
-        if (findDist(grid[mid], ref) < kk){
-            int ub = Good(grid, ref, kk, s, mid - 1);
-            if (ub != -1) return ub;
-            return mid;
+        while (i < m){
+            temp[k] =arr[i];
+            i += 1; k += 1;
         }
-        return Good(grid, ref, kk, mid + 1, e);
-    }
-//    public int[] splitMerge(int[][] grid, int s, int e, int mid){
-//
-//        double a1 = Merging(grid, s, mid);
-//        double a2 = Merging(grid, mid + 1, e);
-//
-//    }
-
-    public static double findPeri(double[][] array){
-        int i = 0; int j = 1; int k = 2; double ans = Double.MAX_VALUE;
-        double aj1_0 = Math.pow(array[j][0] - array[k][0], 2);
-        double  aj1_1 = Math.pow(array[j][1] - array[k][1], 2);
-        double aj1_f = Math.sqrt(aj1_0 + aj1_1);
-        double aj2_0 = Math.pow(array[i][0] - array[j][0], 2);
-        double  aj2_1 = Math.pow(array[i][1] - array[j][1], 2);
-        double aj2_f = Math.sqrt(aj2_0 + aj2_1);
-        double aj3_0 = Math.pow(array[i][0] - array[k][0], 2);
-        double  aj3_1 = Math.pow(array[i][1] - array[k][1], 2);
-        double aj3_f = Math.sqrt(aj3_0 + aj3_1);
-        ans = Math.min(ans, aj1_f + aj2_f + aj3_f);
+        while (j <= r){
+            temp[k] = arr[j];
+            j += 1; k += 1;
+        }
+        //System.out.println(Arrays.toString(arr) + " " + Arrays.toString(temp));
+        for (int kk = l; kk <= r; kk++){arr[kk] = temp[kk];}
         return ans;
-
     }
-    public static double findDist(double[] a1,double[] a2){
-        double aj1_0 = Math.pow(a1[0] - a2[0], 2);
-        double  aj1_1 = Math.pow(a1[1] - a2[1], 2);
-        double aj1_f = Math.sqrt(aj1_0 + aj1_1);
-        return aj1_f;
+    static double merge2(int arr[][], int l, int m, int r)
+    {
+return 0;
+    }
+    static int sort(int arr[], int[] arr3, int[] temp, int l, int r)
+    {
+        if (l < r) {
+            int m = ((r - l) / 2) + l;
+             int j1 = sort(arr, arr3, temp, l, m);
+            int j2 = sort(arr,arr3, temp, m + 1, r);
+
+            int j3 = merge(arr, arr3, temp,l, m + 1, r);
+            return j1 + j2 + j3;
+        }
+        return 0;
+    }
+    static double sort2(Integer[][] array, int l, int r, double d){
+        if (l < r){
+            int m = ((r - l)/2) + l;
+            double a1 = sort2(array, l, m, d);
+            double a2 = sort2(array, m + 1, r, Math.min(d, a1));
+            d = Math.min(a1, a2);
+            ArrayList<Integer[]> strip_of_points = new ArrayList<>();
+            for (int i = l; i <= r; i++){
+                if (Math.abs(array[i][0] - array[m][0]) <= Math.floor((Math.min(d, a2))/2)){
+                    strip_of_points.add(array[i]);
+                }
+                else {
+                    break;
+                }
+            }
+            int u = strip_of_points.size();
+            strip_of_points.sort(new Comparator<Integer[]>() {
+                @Override
+                public int compare(Integer[] o1, Integer[] o2) {
+                    return o1[1] - o2[1];
+                }
+            });
+            for (int i = 0; i < u; i++){
+                for (int j = i + 1; j < Math.min(i + 4, u); j++){
+                    for (int k = j + 1; k < Math.min(j + 4, u); k++){
+
+                        double tt = findPeri(strip_of_points.get(i), strip_of_points.get(j), strip_of_points.get(k));
+                        d = Math.min(d, tt);
+                    }
+                }
+            }
+            return d;
+        }
+        return Double.MAX_VALUE;
+    }
+    static double findPeri(Integer[] a1, Integer[] a2, Integer[] a3){
+        double f1 = findDist(a1, a2);
+        double f2 = findDist(a2, a3);
+        double f3 = findDist(a3, a1);
+        return f1 + f2 + f3;
+    }
+    static double findDist(Integer[] a1, Integer[] a2){
+        double g1 = Math.pow(a2[0] - a1[0], 2);
+        double g2 = Math.pow(a2[1] - a1[1], 2);
+        double g3 = Math.sqrt(g1 + g2);
+        return g3;
     }
 }
 
