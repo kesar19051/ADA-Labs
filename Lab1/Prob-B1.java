@@ -48,23 +48,6 @@ public class Prob-B1 {
             }
         System.out.println(ans);
     }
-//    public static int fun(int a , HashMap<Integer, Integer> hash){
-////        if (a < 0 ) return 0;
-////        if (a == 0) return  1;
-////        if (hash.containsKey(a)){ return hash.get(a);}
-////        boolean f = false;
-////        System.out.println("A: " + a);
-////        for (int i = 1; i <= (a/7) + 1; i+= 7){
-////            for (int j = 1; j < a; j*= 10){
-////                int el = fun((int) (a - j*7*i), hash);
-////                if (el == 1) {f = true; break;}
-////                if (f) break;
-////             }
-////        }
-////        if (f)hash.put(a, 1);
-////        else hash.put(a, 0);
-////        return hash.get(a);
-//    }
 }
 
 
