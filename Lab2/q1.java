@@ -15,73 +15,50 @@ public class Main {
     public static void main(String[] args) {
         // write your code here
         FastReader reader = new FastReader();
-        HashMap<String, Integer> hash = new HashMap();
-//        for (int i = 0; i <= 1000; i++){
-//            for (int j = 0; j <= 1000; j++){
-//                int u = fun(hash, i, j);
-//            }
+        boolean[][] grid = new boolean[1001][1001];
+        Integer[][] dp = new Integer[1001][1001];  dp[0][0] = 0; grid[0][0] = false;
+        ArrayList<int[]> list = new ArrayList<>(); //list.add(new int[]{1, 2}); list.add(new int[]{2, 1});
+        for (int i = 0; i <= 1000; i++){grid[i][0] = true; dp[i][0]= 1;}
+        for (int j = 0; j <= 1000; j++){grid[0][j] = true; dp[0][j] = 1;}
+        grid[0][0] = false;
+        for (int i = 1; i <= 1000; i++){
+            for (int j = i; j <= 1000; j++){
+                if (i == j){grid[i][j] = true; grid[j][i] = true; dp[i][j] = 1;}
+                else{
+               //     System.out.println(i + " " + j);
+                if (list.size() == 0 && dp[i][j] == null){grid[i][j] = false; grid[j][i] = false; dp[i][j] = 0; dp[j][i] = 0; list.add(new int[]{i, j}); list.add(new int[] {j, i});}
+                else {boolean f = false;
+                    for (int[] arr: list){
+                        int s1 = arr[0] -i;
+                        int s2 = arr[1] - j;
+                        if (s1 == s2 || s1 == 0 || s2 == 0){
+                            grid[i][j] = true; grid[j][i] = true;dp[i][j] = 1; dp[j][i] = 1; f = true;break;
+                        }
+
+                    }
+                    if (!f){
+                        grid[i][j] = false; list.add(new int[]{i, j}); list.add(new int[]{j, i}); dp[i][j] = 0; grid[j][i] = false;
+                    }
+                }
+            }
+            }
+        }
+//        for (int[] kl : list){
+//            System.out.println(Arrays.toString(kl));
 //        }
-        int test  = reader.nextInt();
+        int test = reader.nextInt();
         for (int o = 0; o < test; o++) {
             int A = reader.nextInt();
             int B = reader.nextInt();
-            int s = fun(hash, A, B);
-
-            if (s == 0) System.out.println("NO");
-            else System.out.println("YES");
+            boolean k = grid[A][B];
+            if (k) System.out.println("YES");
+            else System.out.println("NO");
         }
     }
-    public static int fun(HashMap<String, Integer> hash, int A, int B) {
-        int y = 1;
-      //  System.out.println(A + " " + B);
-        if (hash.containsKey(A + "_" + B)) {
-           // System.out.println("YAYYYYYYYY");
-            return hash.get(A + "_" + B);
-        }
-        if (A == 1 && B == 2){return 0;}
-        if (A + 1 == B){return 1; }
-        if (B + 1 == A) {return 1; }
-        if (A == 0 && B == 0) {
-            hash.put(0 + "_" + 0, 0); return 0;
-        }
-        if (A == B){
-            hash.put(A + "_" + B, 1); return 1;
-        }
-        if (A == 0) {
-            hash.put(A + "_" + B, 1);
-            return 1;
-        }
-        if (B == 0){hash.put(A + "_" + B, 1); return 1;}
-        for (int i = (int) Math.min(A, B); i > 0; i--) {
-            int u = fun(hash, A - i, B - i);
-            if (u == 0) {
-                hash.put(A + "_" + B, y);
-                return 1;
-            }
-        }
-        for (int i = A - 1; i >= 0; i--) {
-            //for (int j = B; j = B; j++){
-            int u = fun(hash, i, B);
-            if (u == 0) {
-                hash.put(A + "_" + B, y);
-                return  1;
-                //  }
-            }
-        }
-        for (int i = B - 1; i >= 0; i--) {
-            //for (int j = B; j = B; j++){
-            int u = fun(hash, A, i);
-            if (u == 0) {
-                hash.put(A + "_" + B, y);
-                return 1 ;
-                //  }
-            }
-        }
 
-        hash.put(A + "_" + B, 0);
-        return 0;
-    }
+        // }
 }
+
 
 class FastReader
 {
