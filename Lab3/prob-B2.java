@@ -81,6 +81,14 @@ class comparator implements Comparator<Stock>{
             return -1;
         else if(o1.y<o2.y)
             return 1;
+        else{
+            if(o1.x<o2.x){
+                return -1;
+            }
+            else if(o1.x> o2.x){
+                return 1;
+            }
+        }
         return 0;
     }
 }
